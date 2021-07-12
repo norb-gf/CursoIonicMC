@@ -1,14 +1,15 @@
 package com.ngf.cursoionic.domain.enums;
 
-public enum TipoCliente {
-
-	PESSSOA_FíSICA (5,"PF"),
-	PESSOA_JURÍDICA(10,"PJ");
+public enum EstadoPagamento {
 	
+	PENDENTE(1,"Pendente"),
+	QUITADO(2,"Quitado"),
+	CANCELADO(3,"Cancelado");
+
 	private int cod;
 	private String descr;
 	
-	private TipoCliente (int cod, String descr){
+	private EstadoPagamento (int cod, String descr){
 		this.cod = cod;
 		this.descr = descr; 
 	}
@@ -20,11 +21,11 @@ public enum TipoCliente {
 	public String getDescr() {
 		return descr;
 	}
-	public static TipoCliente toEnum(Integer cod) {
+	public static EstadoPagamento toEnum(Integer cod) {
 		if (cod == null) {
 			return null;
 		}
-		for (TipoCliente x : TipoCliente.values()) {
+		for (EstadoPagamento x : EstadoPagamento.values()) {
 			if(cod.equals(x.getCod())) {
 				return x;
 			}
@@ -32,7 +33,6 @@ public enum TipoCliente {
 		
 		throw new IllegalArgumentException("Id invalido" + cod);
 	}
-	
 	
 	
 }
