@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ngf.cursoionic.domain.Categoria;
+import com.ngf.cursoionic.domain.Cliente;
 import com.ngf.cursoionic.dto.CategoriaDTO;
 import com.ngf.cursoionic.repositories.CategoriaRepository;
 import com.ngf.cursoionic.services.exceptions.DataIntegrityException;
@@ -21,48 +22,49 @@ public class CategoriaService {
 
 	@Autowired
 	private CategoriaRepository repo;
-	
+
 	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-		"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
-		}
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+	}
 
-	public List<Categoria> findAll(){
+	public List<Categoria> findAll() {
 		return repo.findAll();
 	}
-	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
-	
-	public Categoria insert(Categoria obj){
+
+	public Categoria insert(Categoria obj) {
 		obj.setId(null);
 		return repo.save(obj);
 	}
 
-	public Categoria update(Categoria obj){
-		find(obj.getId());
-		return repo.save(obj);
+	public Categoria update(Categoria obj) {
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
-	public void delete(Integer id){
+	public void delete(Integer id) {
 		find(id);
 		try {
-		repo.deleteById(id); 
-		}
-		catch (DataIntegrityViolationException e) {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Erro. Exclusão de Categoria que contem Produtos associados");
 		}
 	}
-	
+
 	public Categoria fromDTO(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
-		
+
 	}
-	
+
+  	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+	}
 
 }
-
-
