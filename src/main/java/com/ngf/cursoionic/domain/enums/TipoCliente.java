@@ -30,7 +30,7 @@ public enum TipoCliente {
 			}
 		}
 		
-		throw new IllegalArgumentException("Id invalido" + cod);
+		throw new IllegalArgumentException("Id invalido:  " + cod);
 	}
 	
 	
