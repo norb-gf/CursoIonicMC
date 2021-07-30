@@ -1,4 +1,4 @@
-package com.ngf.cursoionic.resources;
+	package com.ngf.cursoionic.resources;
 
 import java.net.URI;
 import java.util.List;
@@ -39,8 +39,8 @@ public class CategoriaResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
-		List<CategoriaDTO> listDTO = list.stream().map(cat -> new CategoriaDTO(cat)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
+		List<CategoriaDTO> listDto = list.stream().map(cat -> new CategoriaDTO(cat)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(value="/page",method = RequestMethod.GET)
@@ -50,8 +50,8 @@ public class CategoriaResource {
 				@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
 				@RequestParam(value="direction", defaultValue="ASC") String direction ) {
 		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
-		Page<CategoriaDTO> listDTO = list.map(cat -> new CategoriaDTO(cat));
-		return ResponseEntity.ok().body(listDTO);
+		Page<CategoriaDTO> listDto = list.map(cat -> new CategoriaDTO(cat));
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
